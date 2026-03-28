@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   push: # push from GitHub Actions will not trigger this workflow
   schedule:
   - cron: '38 0 * * *'
@@ -10,7 +11,7 @@ env:
   PYTHONUNBUFFERED: '1'
 jobs:
   check:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -38,4 +39,4 @@ jobs:
         git config --local user.email "$(whoami)@$(hostname --fqdn)"
         git add state.txt
         git commit -m '[gh-actions] update state'
-        git push "https://dummy:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:master
+        git push "https://dummy:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:${GITHUB_REF_NAME}

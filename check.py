@@ -24,7 +24,7 @@ class BIOSRelease:
 
 
 def fetch() -> list[BIOSRelease]:
-    url = 'https://www.asus.com/support/api/product.asmx/GetPDBIOS?website=global&pdid=21002'
+    url = 'https://www.asus.com/support/api/product.asmx/GetPDBIOS?website=global&pdid=24005'
     rsp = requests.get(url, headers={'User-Agent': 'Mozilla'})
     assert rsp.status_code == 200, f'HTTP {rsp.status_code} {rsp.reason}\n{rsp.text}'
     body = rsp.json()
@@ -34,7 +34,7 @@ def fetch() -> list[BIOSRelease]:
     result = []
     for bios_file in obj['Files']:
         description = bios_file['Description'].strip('"').replace('<br/>', '\n')
-        description = re.sub(r'\n*Before running the USB BIOS Flashback tool, please rename the BIOS file ?\(PX670ERW\.CAP\) using BIOSRenamer\.\n*', '', description)
+        description = re.sub(r'\n*Before running the USB BIOS Flashback tool, please rename the BIOS file ?\(A5458\.CAP\) using BIOSRenamer\.\n*', '', description)
         result.append(BIOSRelease(
             date=datetime.date.fromisoformat(bios_file['ReleaseDate'].replace('/', '-')),
             version=bios_file['Version'],
@@ -81,7 +81,7 @@ def main() -> None:
     state = load_state()
     for bios in fetch():
         if re.fullmatch(r'\d+', bios.version) and bios.title == '':
-            bios.title = f'PRIME X670E-PRO WIFI BIOS {bios.version}'
+            bios.title = f'PRIME B650M-K BIOS {bios.version}'
         assert bios.title.strip(), bios
         if bios.title in state:
             continue
