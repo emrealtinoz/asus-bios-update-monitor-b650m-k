@@ -12,7 +12,7 @@ import zoneinfo
 
 
 logger = logging.getLogger(__name__)
-SOURCE_PAGE_URL = "https://www.asus.com/us/supportonly/prime%20b650m-k/helpdesk_bios/"
+SOURCE_PAGE_URL = "https://www.asus.com/tr/supportonly/prime%20b650m-k/helpdesk_bios/"
 
 
 @dataclasses.dataclass
