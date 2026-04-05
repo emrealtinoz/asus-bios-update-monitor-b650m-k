@@ -25,7 +25,7 @@ jobs:
         python-version: 3.x
     - name: Install dependencies
       run: pip3 install -r requirements.txt
-    - name: Looking for new downloads and upload as release
+    - name: Sync BIOS release metadata
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: ./check.py

@@ -88,6 +88,11 @@ def github_release_delete_asset(assets_url: str, name: str) -> None:
     rsp = requests.delete(url=asset['url'], headers=github_headers, allow_redirects=False)
     assert rsp.status_code == 204, f'HTTP {rsp.status_code} {rsp.reason}\n{rsp.text}'
 
+def github_release_delete_all_assets(release: GitHubReleaseDict) -> None:
+    for asset in github_release_get_assets(release['assets_url']):
+        rsp = requests.delete(url=asset['url'], headers=github_headers, allow_redirects=False)
+        assert rsp.status_code in [204, 404], f'HTTP {rsp.status_code} {rsp.reason}\n{rsp.text}'
+
 def github_release_upload_asset(release: GitHubReleaseDict, filename: str, src: io.RawIOBase) -> None:
     logger.info(f'Uploading {filename}...')
     upload_url = release['upload_url'].split('{', 1)[0]
